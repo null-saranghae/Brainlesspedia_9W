@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>선풍기 틀고 자면 죽는다</title>
+<style>
+  @font-face {
+    font-family: 'MarinesBold';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2502-1@1.0/MarinesBold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Chosun';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Chosunilbo_myungjo.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+  /* Reset 기본 설정 */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #e0f7fa;
+    color: #222;
+    line-height: 1.6;
+  }
+  
+  .wrap {
+    max-width: 960px;
+    margin: auto;
+    background: #ffffff;
+    padding: 40px 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+  
+  h1, h2, h3 {
+    margin-bottom: 20px;
+  }
+  
+  h1 {
+    font-size: 2.2rem;
+    color: #0077c2;
+    border-bottom: 3px solid #0077c2;
+    padding-bottom: 10px;
+    font-family: 'MarinesBold';
+  }
+  
+  h2 {
+    font-size: 1.8rem;
+    color: #005fa3;
+    border-left: 5px solid #0077c2;
+    padding-left: 12px;
+    font-family: 'MarinesBold';
+  }
+  
+  h3 {
+    font-size: 1.5rem;
+    color: #004080;
+  }
+  
+  p {
+    margin-bottom: 1.2em;
+    font-family: 'chosun';
+  }
+  
+  .line, .upline {
+    border: none;
+  }
+  
+  .overview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .overview-text {
+    flex: 2;
+  }
+  
+  .infobox {
+    flex: 1;
+    background: #f0f8ff;
+    border: 1px solid #b3e5fc;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  
+  .infobox h2 {
+    font-size: 1.2rem;
+  }
+  
+  .infobox dl {
+    margin: 0;
+  }
+  
+  .infobox dt {
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .rating {
+    color: #ff9800;
+  }
+  
+  .containerflex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+  }
+  
+  .container {
+    overflow: hidden;
+  }
+  
+  h5 {
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+    animation: text-to-right 30s linear infinite;
+    background-color: #ff5252;
+    padding: 10px 20px;
+    color: white;
+    font-size: x-large;
+    border-radius: 8px;
+  }
+  /* 댓글창을 화면 오른쪽에 고정시키기 */
+  .comment-box {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+  background: #ffffff;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 20px;
+  z-index: 1000;
+}
+.comment-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+
+.comment-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  margin-top: 10px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.comment-button:hover {
+  background-color: #218838;
+}
+
+.flip-card {
+  width: 400px;
+  height: 300px;
+  perspective: 1000px;
+}
+
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s ease;
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  backface-visibility: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.flip-card-front {
+  background-color: #fff;
+}
+
+.flip-card-back {
+  background-color: #111315;
+  color: white;
+  transform: rotateY(180deg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+.yugioh-card {
+  background-color: transparent;
+  width: 300px;
+  height: 420px;
+  perspective: 1000px;
+  margin: 0 auto;
+}
+
+.yugioh-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s ease;
+  transform-style: preserve-3d;
+}
+
+.yugioh-card:hover .yugioh-card-inner {
+  transform: rotateY(180deg);
+}
+
+.yugioh-card-front,
+.yugioh-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  backface-visibility: hidden;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.yugioh-card-front {
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.yugioh-card-back {
+  background-color: #191715;
+  color: white;
+  transform: rotateY(180deg);
+  padding: 20px;
+  text-align: center;
+}
+
+
+
+@media (max-width: 768px) {
+  .comment-box {
+    position: static;
+    width: 100%;
+    margin-top: 20px;
+    box-shadow: none;
+    border: none;
+    padding: 10px 0;
+  }
+}
+.comment-clear-button {
+  background-color: #ff5252;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  margin-top: 10px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.comment-clear-button:hover {
+  background-color: #e53935;
+}
+  
+  @keyframes text-to-right {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(-70%); }
+  }
+  
+  .warning, .spoiler {
+    background: #fff3e0;
+    padding: 20px;
+    border-left: 6px solid #ff7043;
+    border-radius: 8px;
+    margin-bottom: 30px;
+  }
+  
+  .comment-box {
+    margin-top: 40px;
+    border-top: 2px solid #ccc;
+    padding-top: 20px;
+  }
+  
+  .comment-input {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+  }
+  
+  .comment-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  
+  .comment-button:hover {
+    background-color: #218838;
+  }
+  
+  .center {
+    text-align: center;
+  }
+  
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    height: 100%;
+    background-color: #0077c2;
+    padding-top: 30px;
+    color: white;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+    z-index: 999;
+  }
+  
+  .navbar img {
+    display: block;
+    margin: auto;
+    margin-bottom: 20px;
+  }
+  
+  .navbar a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 15px 30px;
+    font-size: 18px;
+  }
+  
+  .navbar a:hover {
+    background-color: #005fa3;
+  }
+  
+  .content {
+    margin-left: 260px;
+    padding: 20px;
+  }
+  @keyframes float {
+  0% { transform: translateY(0px) rotate(var(--rotate)); }
+  50% { transform: translateY(-10px) rotate(var(--rotate)); }
+  100% { transform: translateY(0px) rotate(var(--rotate)); }
+}
+
+.floating-text {
+  animation: float 3s ease-in-out infinite;
+}
+  
+  @media (max-width: 768px) {
+    .navbar {
+      position: relative;
+      width: 100%;
+      height: auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  
+    .navbar a {
+      display: inline-block;
+      padding: 10px 15px;
+    }
+  
+    .content {
+      margin-left: 0;
+      padding: 20px;
+    }
+  
+    .overview-container, .containerflex {
+      flex-direction: column;
+    }
+  }
+  
+  /* Fade-in 섹션 애니메이션 */
+  .fade-in-section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+  
+  .fade-in-section.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+  </style>
+</head>
+<body>
+  <!-- 무작위 글자들이 쌓일 공간 -->
+<!-- chaos-container를 고정 위치에 만들기 -->
+<div id="chaos-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10;"></div>
+
+    <nav>
+    <div class="navbar">
+        <img src="logo.png" height="300px">
+        <a href="#1">개요</a>
+        <a href="#2">판례</a>
+        <a href="#4">뇌 압수 파트</a>
+        <a href="#5">논리적 전개</a>
+        <a href="#6">자료</a>
+        <a href="#7">결론</a>
+      </div>
+    </nav>
+
+    
+<div class="content fade-in-section">
+  <div class="wrap ">
+    <h1 id="1" style="color: #222;"  >선풍기 틀고 자면 죽는다</h1>
+    <p style="font-family: 'Chosun';"><strong>뇌무위키, 모두의 뇌피셜 세상.</strong><br>
+    → 현재 문서는 선풍기 틀고 자면 죽는다 문서입니다.<br>
+    선풍기의 크기가 규격 외일 경우 <strong>"헬리콥터 틀고 자면 죽는다"</strong> 문서를 참고해주세요.</p>
+
+    <div class="overview-container fade-in-section">
+      <div class="overview-text upline">
+        <h2>개요</h2>
+        
+        <p>밀폐된 공간에서 선풍기를 틀어놓고 자면 질식하여 목숨을 잃는다는 한국의 도시전설.</p>
+        <p>한국인만 이 괴담을 믿는 것은 한국이 상대적으로 최근인 2000년대까지 이런 얘기가 많이 떠돌았기 때문이며, 주류 언론에서도 이것을 사실인 양 보도한 경우가 많았기 때문이다. 선풍기 괴담, 선풍기 사망사고라고도 불리며, 영어로는 Fan Death, 혹은 아예 Korea Fan Death라고 한다.</p>
+        <p>불과 2000년대 후반까지만 해도 여름의 단골 기삿거리 중 하나였고, 잘 때 창문을 닫고 선풍기를 틀면 안 된다는 건 일종의 생활상식이었다. 물론 지금은 대중매체 발달로 완전히 헛소리 취급받는 이야기라고는 하나, 아직도 연장자 중에선 믿는 사람이 꽤 있는 편이다. <br><em>(나무위키에서 발췌)</em></p>
+      
+      </div>
+      <div class="yugioh-card">
+        <div class="yugioh-card-inner">
+          <div class="yugioh-card-front">
+            <img src="Card.png" alt="유희왕 카드 앞면" style="width: 100%; height: 100%; object-fit: contain;">
+          </div>
+          <div class="yugioh-card-back">
+            <h3 style="color: goldenrod;font-family: 'MarinesBold';">희귀 뇌피셜 입니다!</h3>
+            <p>
+              <br>
+              뇌피셜 등급 - 희귀!<br><br><br>
+              신빙성 - 그럴싸 함 <br><br><br>
+              장르 - 스릴러, SF <br><br><br>
+              로튼 브레인 점수 - 4.5/5
+            </p>
+          </div>
+        </div>
+      </div>
+    <div class="upline fade-in-section">
+    <h2 id="2">판례</h2>
+    <p>대법원에서도 선풍기로 인해 사람이 사망할 수 있다는 식의 판결을 내린 적이 있다.</p>
+    <p>해당 판결에서 대법원은 사망한 사람이 더운 날씨에 술에 만취하여 여인숙의 좁은 방안에서 선풍기를 가까운 곳에 틀어 놓고 런닝과 팬티만을 입은 채 잠을 자다가 사망한 사실을 알 수 있는바, 사실관계가 이와 같다면 위 망인이 자던 방의 창문이 열려있어 폐쇄된 공간은 아니라 할지라도 주취상태에서 선풍기바람 때문에 체열의 방산이 급격히 진행된 끝에 저체온에 의한 쇼크로 심장마비를 일으키거나 호흡중추신경 등의 마비를 일으켜 사망에 이르렀을 가능성이 높았던 것으로 보지 않을 수 없다고 판시하여 선풍기 사망설을 인정하는 듯한 판결을 내렸다.</p>
+    </div>
+    <section class="spoiler containerflex">
+        <div class="fade-in-section">
+    <h2 style="color: goldenrod; border-left: 5px solid goldenrod ;">약하디 약한 뇌피셜!</h2>
+    <p><strong>미신이란게 다 뇌피셜이긴 한데 이건 좀 평범한 수준이긴 하네요</strong></p>
+   </div>
+   <div>
+    <img src="science.jpeg" height="150px">
+   </div>    
+</section>  
+    <section class="containerflex fade-in-section">
+    <div>
+    <p>선풍기 바람에 산소입자가 쪼개져 질식한다?
+    <p>선풍기의 날이 빠르지 않은가? 빠르면 원자 정도야 쓱싹일 것이다.</p>
+    <p>반박시 원자</p>
+</div>
+<div class="fade-in-section">
+<img src="logic.png" height="150px">
+</div>
+</section>
+    <div class="container ">
+        <h5> 뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦뇌피셜 주의!✦</h5>
+    </div>
+    <section class="warning containerflex">
+        <div class="fade-in-section">
+    <h2 id="4" style="color: #e53935; border-left: 5px solid #e53935;">뇌 압수 파트</h2>
+    <p><strong>잠깐! 당신의 판단력을 저하시키기 위해, 잠시 당신의 뇌를 압수하겠습니다.</strong><br>완전히 헛소리이기 때문에 이걸 맹신하고 공론화하시면 안됩니다? 아직까지는요.</p>
+</div>
+<div>
+    <img src="gif.gif">
+</div>
+    </section>
+
+<section class="containerflex fade-in-section">
+    <div>
+    <p>선풍기를 틀고 자 본 당신, 이 글을 되새기길 바란다.</p><br><br><br><br>
+    <p><strong>“선풍기는 복수를 하고 있다.”</strong></p><br><br><br><br>
+    <p>그렇다. 선풍기 입장에서 생각해보자.<br> 더운 여름날 밤새 열심히 일하고 있는 내 앞에, 팔자 좋게 쳐 자는 인간이 있다면, <br><br><br><br><br><br><br><br><br><br><strong style="color: #e53935; font-size: larger;">죽이고 싶지 않겠는가?</strong></p>
+    </div>
+<div class="fade-in-section">
+    <img src="talk.png" height="300px">
+</div>
+</section>
+
+<div class="fade-in-section">
+    <h2 id="5">논리적 전개</h2>
+    <p><strong style="font-size: larger;">전제 1 – 선풍기에게는 범행 동기가 있다.</strong><br><br>
+    인간은 선풍기를 감정 없는 가전제품으로 취급해왔다. 그러나 선풍기는 한여름 땀 냄새 나는 인간의 방에서 온갖 먼지를 빨아들이며 매일같이 돌아간다. 말도 없이 묵묵히 일하는 동안, 선풍기는 혼자 자빠져 자는 인간의 이기심을 목격하고, 점점 마음속에 분노를 쌓아간다.</p>
+    <p><strong style="font-size: larger;">전제 2 – 선풍기는 수면 중 인간을 공격할 수 있는 위치에 있다.</strong><br><br>
+    대부분의 선풍기는 침대 바로 옆, 혹은 얼굴 바로 앞에 위치한다. 게다가 회전 기능을 꺼두면 한 사람만 노릴 수 있다. 이 말은 곧, 선풍기가 복수를 결심했을 때, 피해자가 방심한 상태임을 의미한다.</p>
+    <p>즉, 가장 무방비한 순간에 선풍기의 감정적 방출이 일어난다.</p>
+</div>
+
+
+  <div class="fade-in-section">
+    <h2 id="6">자료</h2>
+  </div>
+
+
+  <section class="containerflex fade-in-section" style="gap: 40px; justify-content: center;">
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <img src="news.png" alt="자료 이미지 1" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div class="flip-card-back">
+          <h3 style="color: goldenrod; font-family: 'MarinesBold';">자료 1 - 풍성한 베개 사건</h3>
+          <p>1998년 여름, 경기도의 한 가정에서 매일 밤 선풍기를 철저히 끄고 잤던 남성은 불행하게도 베개 양 면이 따끈했다. <br> 하는 수 없이 선풍기를 켠 순간, 그는 경악을 금치 못했다. 선풍기의 풍압이 그의 모발을 전부 날려버려 베개에 빼앗기고 만 것이다.</p>
+        </div>
+      </div>
+    </div>
+  
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <img src="finish_him.png" alt="자료 이미지 2" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div class="flip-card-back">
+          <h3 style="color: goldenrod; font-family: 'MarinesBold';">자료 2 - 미친호카게 선풍기 사건</h3>
+          <p>1298년 가을, 일본 어느 마을의 평범한 가정집에서 선풍기가 주인을 실제로 암살시도를 하는 사건이 발생됐다. 선풍기가 자신의 팔을 하나 날려 주인을 살해하려고 시도한 것이다. 다행히도 그의 침대가 선풍기와의 사투 끝에 주인을 구하는 데 성공했으나, 그날 이후로 남성의 집은 한층 더 <br>후끈해질 수 밖에 없었다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br><br>
+
+<div class="fade-in-section">
+    <h2 id="7">결론</h2>
+    <p>선풍기는 밤새 일하던 중, 온갖 먼지를 빨아들이고, 계속해서 회전을 해야 하는 스트레스에 놓인 가운데, <br>잠만 자는 인간을 보고 살인 충동을 이기지 못하고 인간을 살해하는 선택을 내리게 됨. <br> 그러니까 우리는 모두 안전한 에어컨을 사용합시다. 윌리스 캐리어 만세.</p>
+ </div>
+  
+
+
+<!--  입력 박스 -->
+<div class="comment-box">
+  <h4> 뇌피셜 오염시키기</h4>
+  <textarea class="comment-input" id="comment-input" rows="4" placeholder="무맥락 텍스트로 뇌피셜 문서를 더럽혀 보세요"></textarea>
+  <button class="comment-button" id="comment-button">더럽히기</button>
+  <button class="comment-clear-button" onclick="clearChaos()">초기화</button>
+</div>
+
+
+    
+
+  <script>
+  
+    // 댓글 작성 버튼 클릭 이벤트
+    document.getElementById('comment-button').addEventListener('click', function() {
+      const commentInput = document.getElementById('comment-input');
+      const commentText = commentInput.value.trim();
+
+      if (commentText !== '') {
+        saveComment(commentText);
+        loadComments(); // 댓글 리스트 갱신
+        commentInput.value = ''; // 댓글 입력창 비우기
+      } else {
+        alert('너무 깨끗합니다.');
+      }
+    });
+
+  </script>
+        <script>
+          // 토글 기능
+          function toggleContent() {
+            var content = document.getElementById('toggle-content');
+            if (content.style.display === "none" || content.style.display === "") {
+              content.style.display = "block";
+            } else {
+              content.style.display = "none";
+            }
+          }
+        </script>
+        <script>
+          // Intersection Observer를 사용하여 스크롤 등장 애니메이션 적용
+            document.addEventListener('DOMContentLoaded', function() {
+              const faders = document.querySelectorAll('.fade-in-section');
+          
+              const appearOptions = {
+                threshold: 0.2,
+                rootMargin: "0px 0px -100px 0px"
+              };
+          
+              const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                  if (!entry.isIntersecting) return;
+                  entry.target.classList.add('is-visible');
+                  appearOnScroll.unobserve(entry.target);
+                });
+              }, appearOptions);
+          
+              faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+              });
+            });
+
+       
+
+document.getElementById('comment-button').addEventListener('click', function() {
+  const commentInput = document.getElementById('comment-input');
+  const commentText = commentInput.value.trim();
+
+  if (commentText !== '') {
+    spawnRandomText(commentText);
+    commentInput.value = '';
+  
+  }
+});
+
+// 랜덤 텍스트 생성 함수
+function spawnRandomText(text) {
+  const chaosContainer = document.getElementById('chaos-container');
+  const newText = document.createElement('div');
+  newText.textContent = text;
+
+  newText.style.position = 'absolute';
+  newText.style.top = Math.random() * window.innerHeight + 'px';
+  newText.style.left = Math.random() * window.innerWidth + 'px';
+  newText.style.fontSize = (Math.random() * 2 + 1) + 'rem'; // 1rem ~ 3rem
+  newText.style.color = getRandomColor();
+  newText.style.fontWeight = 'bold';
+  newText.style.whiteSpace = 'nowrap';
+  
+  // 랜덤 회전값 고정
+  const randomRotate = Math.random() * 360 + 'deg';
+  newText.style.setProperty('--rotate', randomRotate);
+
+  // 둥둥 떠다니는 애니메이션 적용
+  newText.classList.add('floating-text');
+
+  chaosContainer.appendChild(newText);
+}
+
+// 랜덤 색상 함수
+function getRandomColor() {
+  const colors = ['#0077c2', '#005fa3', '#004080', '#003366', '#002244'];
+  return colors[Math.floor(Math.random() * colors.length)];
+}
+
+// 초기화 함수
+function clearChaos() {
+  const chaosContainer = document.getElementById('chaos-container');
+  chaosContainer.innerHTML = ''; 
+  alert('좀 치웠습니다.');
+}
+
+          </script>
+       
+      </div>
+    </div>
+  </div>  
+</div>
+</div>
+</body>
+</html>
